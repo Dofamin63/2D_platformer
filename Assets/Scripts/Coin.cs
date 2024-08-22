@@ -2,11 +2,8 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    private void OnTriggerEnter2D(Collider2D other)
+    public void Collected()
     {
-        if (other.TryGetComponent(out Player _))
-        {
-           Destroy(gameObject);
-        }
+        Destroy(gameObject);
     }
 }
