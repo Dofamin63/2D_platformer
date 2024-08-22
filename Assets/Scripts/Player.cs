@@ -54,8 +54,10 @@ public class Player : MonoBehaviour
 
             if (_groundDetector.IsGround)
                 _animator.SetBool(IsMoved, true);
-            else
-                _animator.SetBool(IsMoved, false);
+        }
+        else
+        {
+            _animator.SetBool(IsMoved, false);
         }
     }
 
