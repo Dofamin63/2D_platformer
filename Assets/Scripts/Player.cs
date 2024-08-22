@@ -1,10 +1,7 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(RotationHandler))]
-[RequireComponent(typeof(CollisionDetector))]
-[RequireComponent(typeof(GroundDetector))]
+[RequireComponent(typeof(Rigidbody2D), typeof(Animator), typeof(Flipper))]
+[RequireComponent(typeof(CollisionDetector), typeof(GroundDetector))]
 public class Player : MonoBehaviour
 {
     private const string Horizontal = nameof(Horizontal);
@@ -15,7 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField] private InputReader _inputReader;
     [SerializeField] private GroundDetector _groundDetector;
 
-    private RotationHandler _rotationHandler;
+    private Flipper _flipper;
     private Animator _animator;
     private Rigidbody2D _rigidbody;
     private bool _isMoving;
@@ -24,7 +21,7 @@ public class Player : MonoBehaviour
     {
         _animator = GetComponent<Animator>();
         _rigidbody = GetComponent<Rigidbody2D>();
-        _rotationHandler = GetComponent<RotationHandler>();
+        _flipper = GetComponent<Flipper>();
     }
 
     private void Update()
@@ -34,10 +31,9 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_inputReader.IsJump)
+        if (_inputReader.GetIsJump() && _groundDetector.IsGround)
         {
             Jump();
-            _inputReader.DeActivateJumpTrying();
         }
     }
 
@@ -46,7 +42,7 @@ public class Player : MonoBehaviour
         float direction = _inputReader.Direction;
         Vector2 directionMove = new Vector2(direction, 0);
 
-        _rotationHandler.Rotate(direction);
+        _flipper.Rotate(direction);
 
         if (Input.GetButton(Horizontal))
         {
@@ -63,9 +59,6 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
-        if (_groundDetector.IsGround)
-        {
-            _rigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
-        }
+        _rigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
     }
 }

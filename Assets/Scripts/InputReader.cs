@@ -3,25 +3,26 @@ using UnityEngine;
 public class InputReader : MonoBehaviour
 {
     private const string Horizontal = nameof(Horizontal);
-    
-    public bool IsJump { get; private set; }
+
+    private bool _isJump;
     public float Direction { get; private set; }
 
     private void Update()
     {
-        if (Input.GetButton(Horizontal))
-        {
-            Direction = Input.GetAxis(Horizontal);
-        }
+        Direction = Input.GetAxis(Horizontal);
 
         if (Input.GetKey(KeyCode.Space))
         {
-            IsJump = true;
+            _isJump = true;
         }
     }
+    
+    public bool GetIsJump() => GetBoolAsTrigger(ref _isJump);
 
-    public void DeActivateJumpTrying()
+    private bool GetBoolAsTrigger(ref bool value)
     {
-        IsJump = false;
+        bool localValue = value;
+        value = false;
+        return localValue;
     }
 }

@@ -1,18 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(RotationHandler))]
+[RequireComponent(typeof(Flipper))]
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private List<Transform> _waypoints;
 
     private int _currentPosition;
-    private RotationHandler _rotationHandler;
+    private Flipper _rotationHandler;
 
     private void Awake()
     {
-        _rotationHandler = GetComponent<RotationHandler>();
+        _rotationHandler = GetComponent<Flipper>();
     }
 
     private void Update()
