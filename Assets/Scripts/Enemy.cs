@@ -1,31 +1,35 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Flipper))]
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] private float _speed;
-    [SerializeField] private List<Transform> _waypoints;
+    private EnemyCombat _enemyCombat;
+    private Health _health;
+    private EnemyMover _enemyMover;
 
-    private int _currentPosition;
-    private Flipper _rotationHandler;
+    public Health Health => _health;
 
     private void Awake()
     {
-        _rotationHandler = GetComponent<Flipper>();
+        _health = GetComponent<Health>();
+        _enemyCombat = GetComponent<EnemyCombat>();
+        _enemyMover = GetComponent<EnemyMover>();
     }
 
     private void Update()
     {
-        if (transform.position == _waypoints[_currentPosition].position)
+        if (_enemyCombat.CanSeePlayer())
         {
-            _currentPosition = ++_currentPosition % _waypoints.Count;
+            _enemyMover.ChasePlayer(_enemyCombat.Player);
+
+            if (_enemyCombat.IsCombat == false)
+            {
+                _enemyCombat.StartAttack();
+            }
         }
-        
-        Vector2 direction = _waypoints[_currentPosition].position - transform.position;
-        _rotationHandler.Rotate(direction.x);
-        
-        transform.position = Vector2.MoveTowards(transform.position, _waypoints[_currentPosition].position,
-            _speed * Time.deltaTime);
+        else
+        {
+            _enemyMover.Patrol();
+            _enemyCombat.StopAttack();
+        }
     }
 }

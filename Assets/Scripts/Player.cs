@@ -1,64 +1,43 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(Animator), typeof(Flipper))]
-[RequireComponent(typeof(CollisionDetector), typeof(GroundDetector))]
+[RequireComponent(typeof(Player), typeof(Health), typeof(Flipper))]
+[RequireComponent(typeof(Animator))]
 public class Player : MonoBehaviour
 {
-    private const string Horizontal = nameof(Horizontal);
     private const string IsMoved = nameof(IsMoved);
 
-    [SerializeField] private float _moveSpeed;
-    [SerializeField] private float _jumpForce;
     [SerializeField] private InputReader _inputReader;
     [SerializeField] private GroundDetector _groundDetector;
+    [SerializeField] private PlayerMover _playerMover;
 
     private Flipper _flipper;
     private Animator _animator;
-    private Rigidbody2D _rigidbody;
-    private bool _isMoving;
+    private Health _health;
+    
+    public Health Health => _health;
 
     private void Awake()
     {
         _animator = GetComponent<Animator>();
-        _rigidbody = GetComponent<Rigidbody2D>();
         _flipper = GetComponent<Flipper>();
+        _health = GetComponent<Health>();
+        _playerMover = GetComponent<PlayerMover>();
     }
-
-    private void Update()
-    {
-        Move();
-    }
-
+    
     private void FixedUpdate()
     {
-        if (_inputReader.GetIsJump() && _groundDetector.IsGround)
+        if (_inputReader.Direction != 0)
         {
-            Jump();
-        }
-    }
-
-    private void Move()
-    {
-        float direction = _inputReader.Direction;
-        Vector2 directionMove = new Vector2(direction, 0);
-
-        _flipper.Rotate(direction);
-
-        if (Input.GetButton(Horizontal))
-        {
-            transform.Translate(directionMove * (_moveSpeed * Time.deltaTime));
-
-            if (_groundDetector.IsGround)
-                _animator.SetBool(IsMoved, true);
+            _animator.SetBool(IsMoved, true);
+            _flipper.Rotate(_inputReader.Direction);
+            _playerMover.Move(_inputReader.Direction);
         }
         else
         {
             _animator.SetBool(IsMoved, false);
         }
-    }
 
-    private void Jump()
-    {
-        _rigidbody.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+        if (_inputReader.GetIsJump() && _groundDetector.IsGround)
+            _playerMover.Jump();
     }
 }

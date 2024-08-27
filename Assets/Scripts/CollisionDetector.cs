@@ -8,5 +8,9 @@ public class CollisionDetector : MonoBehaviour
         {
             coin.Collected();
         }
+        if (collision.TryGetComponent(out MedPac medPac))
+        {
+            medPac.Collected();
+        }
     }
 }

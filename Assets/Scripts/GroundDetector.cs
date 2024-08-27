@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(GroundDetector))]
 public class GroundDetector : MonoBehaviour
 {
     public bool IsGround { get; private set; } = true;

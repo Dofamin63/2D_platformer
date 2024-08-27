@@ -17,12 +17,11 @@ public class InputReader : MonoBehaviour
         }
     }
     
-    public bool GetIsJump() => GetBoolAsTrigger(ref _isJump);
+    public bool GetIsJump() => GetBoolAsTrigger(_isJump);
 
-    private bool GetBoolAsTrigger(ref bool value)
+    private bool GetBoolAsTrigger(bool isJump)
     {
-        bool localValue = value;
-        value = false;
-        return localValue;
+        _isJump = false;
+        return isJump;
     }
 }
