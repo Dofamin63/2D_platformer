@@ -1,18 +1,23 @@
+using System;
 using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
 {
     [SerializeField] private float _attackRange;
     [SerializeField] private float _attackDamage;
+    [SerializeField] private LayerMask _enemyMask;
 
-    private void OnMouseDown()
+    private void Update()
     {
-        Attack();
+        if (Input.GetMouseButtonDown(0))
+        {
+            Attack();
+        }
     }
 
     private void Attack()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, _attackRange);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, _attackRange, _enemyMask);
 
         foreach (Collider2D hit in colliders)
         {

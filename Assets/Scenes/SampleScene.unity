@@ -138,7 +138,9 @@ GameObject:
   - component: {fileID: 7847183}
   - component: {fileID: 7847182}
   - component: {fileID: 7847180}
-  m_Layer: 0
+  - component: {fileID: 7847184}
+  - component: {fileID: 7847185}
+  m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -262,9 +264,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 696d8c542db480c46b86cc4fec463ff7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attackRange: 5
   _attackDamage: 3
-  _delay: 2
+  _delayAttack: 5
 --- !u!114 &7847182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,6 +318,49 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.890625
+--- !u!114 &7847184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7847169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bdcea2e65b402742b63a5636d09398a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  _detectionZone: 5
+--- !u!50 &7847185
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7847169}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &12260844
 GameObject:
   m_ObjectHideFlags: 0
@@ -4494,6 +4538,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa5a22fba852eed439b0cc6cc07b36da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _amountHealth: 0
 --- !u!212 &1992233526
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4781,7 +4826,7 @@ GameObject:
   - component: {fileID: 2083496330}
   - component: {fileID: 2083496328}
   - component: {fileID: 2083496331}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5005,7 +5050,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _attackRange: 3
-  _attackDamage: 1
+  _attackDamage: 40
+  _enemyMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!114 &2083496331
 MonoBehaviour:
   m_ObjectHideFlags: 0

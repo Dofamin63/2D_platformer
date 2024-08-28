@@ -44,7 +44,6 @@ public class EnemyMover : MonoBehaviour
 
     private float CalculateDirection(Transform to)
     {
-        Vector2 direction = to.position - transform.position;
-        return direction.x;
+        return (to.position - transform.position).x;
     }
 }

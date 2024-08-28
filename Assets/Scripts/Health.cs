@@ -1,13 +1,11 @@
-using System;
 using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] private float _maxHealth;
     private const float _minHealth = 0;
-    [SerializeField] private float _currentHealth;
 
-    public event Action Died;
+    [SerializeField] private float _maxHealth;
+    [SerializeField] private float _currentHealth;
 
     private void Start()
     {
@@ -34,6 +32,6 @@ public class Health : MonoBehaviour
 
     private void Die()
     {
-        // Destroy(gameObject);
+        Destroy(gameObject);
     }
 }

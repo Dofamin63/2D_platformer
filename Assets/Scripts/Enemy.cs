@@ -5,6 +5,7 @@ public class Enemy : MonoBehaviour
     private EnemyCombat _enemyCombat;
     private Health _health;
     private EnemyMover _enemyMover;
+    private PlayerDetector _playerDetector;
 
     public Health Health => _health;
 
@@ -13,23 +14,20 @@ public class Enemy : MonoBehaviour
         _health = GetComponent<Health>();
         _enemyCombat = GetComponent<EnemyCombat>();
         _enemyMover = GetComponent<EnemyMover>();
+        _playerDetector = GetComponent<PlayerDetector>();
     }
 
     private void Update()
     {
-        if (_enemyCombat.CanSeePlayer())
+        if (_playerDetector.IsSeePlayer())
         {
-            _enemyMover.ChasePlayer(_enemyCombat.Player);
-
-            if (_enemyCombat.IsCombat == false)
-            {
-                _enemyCombat.StartAttack();
-            }
+            _enemyMover.ChasePlayer(_playerDetector.Player);
+            _enemyCombat.TryAttack(_playerDetector.Player);
         }
+        
         else
         {
             _enemyMover.Patrol();
-            _enemyCombat.StopAttack();
         }
     }
 }
