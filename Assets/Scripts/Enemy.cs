@@ -28,6 +28,7 @@ public class Enemy : MonoBehaviour
         else
         {
             _enemyMover.Patrol();
+            int check;
         }
     }
 }
