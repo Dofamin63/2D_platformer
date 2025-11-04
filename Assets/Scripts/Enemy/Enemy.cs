@@ -24,11 +24,10 @@ public class Enemy : MonoBehaviour
             _enemyMover.ChasePlayer(_playerDetector.Player);
             _enemyCombat.TryAttack(_playerDetector.Player);
         }
-        
+
         else
         {
             _enemyMover.Patrol();
-            int check;
         }
     }
 }
