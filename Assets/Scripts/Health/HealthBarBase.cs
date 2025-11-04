@@ -3,7 +3,7 @@ using UnityEngine;
 public abstract class HealthBarBase : MonoBehaviour
 {
     [SerializeField] protected Health _health;
-    private Vector3 _offset = new(0f, 1f, 0f);
+    private Vector3 _offset = new (0f, 1f, 0f);
 
     private void Update()
     {
