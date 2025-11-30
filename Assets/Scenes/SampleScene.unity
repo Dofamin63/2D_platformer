@@ -140,6 +140,9 @@ GameObject:
   - component: {fileID: 7847187}
   - component: {fileID: 7847183}
   - component: {fileID: 7847185}
+  - component: {fileID: 7847188}
+  - component: {fileID: 7847190}
+  - component: {fileID: 7847189}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -159,6 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e35e22009967edb4286d63285ee39ead, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animationTime: 0.5
 --- !u!4 &7847174
 Transform:
   m_ObjectHideFlags: 0
@@ -251,7 +255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _minHealth: 0
-  _maxHealth: 80
+  _maxHealth: 100
 --- !u!114 &7847180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,8 +268,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 696d8c542db480c46b86cc4fec463ff7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attackDamage: 10
+  _attackDamage: 20
   _delayAttack: 3
+  _attackRange: 2
 --- !u!58 &7847183
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -341,10 +346,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 3
-  _waypoints:
-  - {fileID: 40360111}
-  - {fileID: 962766912}
-  _chaseRange: 100
 --- !u!114 &7847187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -361,6 +362,56 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   _detectionZone: 5
+--- !u!95 &7847188
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7847169}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d40382c0f81c6ce418671e2c847ddd93, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7847189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7847169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 600e9d9222d7485a85b751fb0da25615, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _waypoints:
+  - {fileID: 40360111}
+  - {fileID: 962766912}
+--- !u!114 &7847190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7847169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc989590cf7e4af282174e6acaba8e6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _chaseRange: 7
+  _stopDistance: 1.5
 --- !u!1 &12260844
 GameObject:
   m_ObjectHideFlags: 0
@@ -583,7 +634,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1415,7 +1466,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -5605,6 +5656,7 @@ MonoBehaviour:
   _inputReader: {fileID: 272974981}
   _groundDetector: {fileID: 12260845}
   _playerMover: {fileID: 2083496332}
+  _playerCombat: {fileID: 0}
 --- !u!212 &2083496318
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5651,7 +5703,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 2.0625, y: 2}
+  m_Size: {x: 0.33, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

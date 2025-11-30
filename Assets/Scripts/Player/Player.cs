@@ -5,10 +5,12 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private const string IsMoved = nameof(IsMoved);
+    private const string AttackTrigger = nameof(AttackTrigger);
 
     [SerializeField] private InputReader _inputReader;
     [SerializeField] private GroundDetector _groundDetector;
     [SerializeField] private PlayerMover _playerMover;
+    [SerializeField] private PlayerCombat _playerCombat;
 
     private Flipper _flipper;
     private Animator _animator;
@@ -22,6 +24,7 @@ public class Player : MonoBehaviour
         _flipper = GetComponent<Flipper>();
         _health = GetComponent<Health>();
         _playerMover = GetComponent<PlayerMover>();
+        _playerCombat = GetComponent<PlayerCombat>();
     }
     
     private void FixedUpdate()
@@ -38,6 +41,23 @@ public class Player : MonoBehaviour
         }
 
         if (_inputReader.GetIsJump() && _groundDetector.IsGround)
+        {
             _playerMover.Jump();
+        }
+    }
+
+    private void OnEnable()
+    {
+        _playerCombat.OnAttack += PlayAttack;
+    }
+    
+    private void OnDisable()
+    {
+        _playerCombat.OnAttack -= PlayAttack;
+    }
+
+    private void PlayAttack()
+    {
+        _animator.SetTrigger(AttackTrigger);
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
@@ -5,6 +6,9 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private float _attackRange;
     [SerializeField] private float _attackDamage;
     [SerializeField] private LayerMask _enemyMask;
+    private float _startDirection = 0;
+
+    public event Action OnAttack;
 
     private void Update()
     {
@@ -16,14 +20,14 @@ public class PlayerCombat : MonoBehaviour
 
     private void Attack()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, _attackRange, _enemyMask);
-
-        foreach (Collider2D hit in colliders)
+        Vector2 direction = transform.localScale.x > _startDirection ? Vector2.right : Vector2.left;
+        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, direction, _attackRange, _enemyMask);
+        OnAttack?.Invoke();
+        
+        foreach (RaycastHit2D hit in hits)
         {
-            if (hit.TryGetComponent(out Enemy enemy))
-            {
+            if (hit.collider.TryGetComponent(out Enemy enemy))
                 enemy.Health.TakeDamage(_attackDamage);
-            }
         }
     }
 }
