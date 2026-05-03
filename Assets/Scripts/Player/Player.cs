@@ -1,44 +1,54 @@
+using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(Player), typeof(Health), typeof(Flipper))]
-[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(Health), typeof(Flipper))]
 public class Player : MonoBehaviour
 {
-    private const string IsMoved = nameof(IsMoved);
-    private const string AttackTrigger = nameof(AttackTrigger);
-
     [SerializeField] private InputReader _inputReader;
     [SerializeField] private GroundDetector _groundDetector;
     [SerializeField] private PlayerMover _playerMover;
     [SerializeField] private PlayerCombat _playerCombat;
+    [SerializeField] private PlayerAnimator _playerAnimator;
+    [SerializeField] private float _attackDuration = 0.3f;
 
     private Flipper _flipper;
-    private Animator _animator;
     private Health _health;
+    private float _previousDirection;
     
     public Health Health => _health;
 
     private void Awake()
     {
-        _animator = GetComponent<Animator>();
         _flipper = GetComponent<Flipper>();
         _health = GetComponent<Health>();
         _playerMover = GetComponent<PlayerMover>();
         _playerCombat = GetComponent<PlayerCombat>();
+        _playerAnimator = GetComponent<PlayerAnimator>();
     }
     
     private void FixedUpdate()
     {
-        if (_inputReader.Direction != 0)
+        float currentDirection = _inputReader.Direction;
+        
+        if (currentDirection != 0)
         {
-            _animator.SetBool(IsMoved, true);
-            _flipper.Rotate(_inputReader.Direction);
-            _playerMover.Move(_inputReader.Direction);
+            if (_previousDirection == 0)
+            {
+                _playerAnimator?.StartMove();
+            }
+            
+            _flipper.Rotate(currentDirection);
+            _playerMover.Move(currentDirection);
         }
         else
         {
-            _animator.SetBool(IsMoved, false);
+            if (_previousDirection != 0)
+            {
+                _playerAnimator?.StopMove();
+            }
         }
+        
+        _previousDirection = currentDirection;
 
         if (_inputReader.GetIsJump() && _groundDetector.IsGround)
         {
@@ -48,16 +58,23 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
-        _playerCombat.OnAttack += PlayAttack;
-    }
-    
-    private void OnDisable()
-    {
-        _playerCombat.OnAttack -= PlayAttack;
+        _playerCombat.OnAttack += OnAttack;
     }
 
-    private void PlayAttack()
+    private void OnDisable()
     {
-        _animator.SetTrigger(AttackTrigger);
+        _playerCombat.OnAttack -= OnAttack;
+    }
+
+    private void OnAttack()
+    {
+        _playerAnimator?.StartAttack();
+        StartCoroutine(StopAttackAfterDelay());
+    }
+
+    private IEnumerator StopAttackAfterDelay()
+    {
+        yield return new WaitForSeconds(_attackDuration);
+        _playerAnimator?.StopAttack();
     }
 }

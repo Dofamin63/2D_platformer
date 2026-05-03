@@ -5634,6 +5634,7 @@ GameObject:
   - component: {fileID: 2083496330}
   - component: {fileID: 2083496328}
   - component: {fileID: 2083496332}
+  - component: {fileID: 2083496333}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -5657,6 +5658,8 @@ MonoBehaviour:
   _groundDetector: {fileID: 12260845}
   _playerMover: {fileID: 2083496332}
   _playerCombat: {fileID: 0}
+  _playerAnimator: {fileID: 0}
+  _attackDuration: 0.3
 --- !u!212 &2083496318
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5877,6 +5880,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speedX: 300
   _jumpForce: 400
+--- !u!114 &2083496333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2083496316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ee4ee496555ea946b196ca6fb119a4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
