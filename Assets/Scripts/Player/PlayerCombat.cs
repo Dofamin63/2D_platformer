@@ -1,18 +1,25 @@
 using System;
 using UnityEngine;
 
+[RequireComponent(typeof(InputReader))]
 public class PlayerCombat : MonoBehaviour
 {
     [SerializeField] private float _attackRange;
     [SerializeField] private float _attackDamage;
     [SerializeField] private LayerMask _enemyMask;
     private float _startDirection = 0;
+    private InputReader _inputReader;
 
     public event Action OnAttack;
 
+    public void Awake()
+    {
+        _inputReader = GetComponent<InputReader>();
+    }
+
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (_inputReader.GetIsAttack())
         {
             Attack();
         }
