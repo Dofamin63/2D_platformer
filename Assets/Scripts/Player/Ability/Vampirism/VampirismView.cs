@@ -3,12 +3,11 @@ using UnityEngine.UI;
 
 public class VampirismView : MonoBehaviour
 {
+    private const float MinBarValue = 0f;
+    private const float MaxBarValue = 1f;
     [SerializeField] private Slider _timeBar;
     [SerializeField] private SpriteRenderer _radiusRender;
     [SerializeField] private Vector3 _barOffset;
-
-    private const float MinBarValue = 0f;
-    private const float MaxBarValue = 1f;
 
     public void UpdatePosition(Vector3 ownerPosition)
     {

@@ -16,23 +16,23 @@ public class Vampirism : MonoBehaviour
 
     public void Tick()
     {
-        Enemy nearest = FindNearestEnemy();
+        IDamageable nearest = FindNearestEnemy();
         if (nearest == null) return;
 
         float damage = _damagePerSecond * Time.deltaTime;
-        nearest.Health.TakeDamage(damage);
+        nearest.TakeDamage(damage);
         _health.Heal(damage);
     }
 
-    private Enemy FindNearestEnemy()
+    private IDamageable FindNearestEnemy()
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, _radius, _enemyMask);
-        Enemy nearest = null;
+        IDamageable nearest = null;
         float minDistance = float.MaxValue;
 
         foreach (Collider2D collider in colliders)
         {
-            if (collider.TryGetComponent(out Enemy enemy))
+            if (collider.TryGetComponent(out IDamageable enemy))
             {
                 float distance = Vector2.Distance(transform.position, enemy.transform.position);
                 if (distance < minDistance)
